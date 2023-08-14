@@ -3,8 +3,6 @@ import 'flatpickr/dist/flatpickr.min.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const DELAY = 1000;
-let currentDate = null;
-let choosenDate = null;
 
 const refs = {
   dataInput: document.querySelector('input#datetime-picker'),
@@ -39,7 +37,13 @@ const options = {
 flatpickr(refs.dataInput, options);
 
 function starCountdown() {
-  timer.start();
+  setInterval(() => {
+    currentDate = Date.now();
+    const delta = choosenDate - currentDate;
+    timerUpdateDate(convertMs(delta));
+    refs.dataBtn.disabled = true;
+    refs.dataInput.disabled = true;
+  }, DELAY);
 }
 
 function convertMs(ms) {
@@ -62,17 +66,6 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
-
-const timer = {
-  start() {
-    setInterval(() => {
-      currentDate = Date.now();
-      const delta = choosenDate - currentDate;
-      timerUpdateDate(convertMs(delta));
-      refs.dataBtn.disabled = true;
-    }, DELAY);
-  },
-};
 
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
