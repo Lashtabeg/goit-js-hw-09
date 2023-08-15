@@ -1,6 +1,7 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { Report } from 'notiflix/build/notiflix-report-aio';
 
 const DELAY = 1000;
 let currentDate = null;
@@ -39,12 +40,18 @@ const options = {
 flatpickr(refs.dataInput, options);
 
 function starCountdown() {
-  setInterval(() => {
+  const timer = setInterval(() => {
     currentDate = Date.now();
     const delta = choosenDate - currentDate;
-    timerUpdateDate(convertMs(delta));
-    refs.dataBtn.disabled = true;
-    refs.dataInput.disabled = true;
+    if (delta > 0) {
+      timerUpdateDate(convertMs(delta));
+      refs.dataBtn.disabled = true;
+      refs.dataInput.disabled = true;
+    } else {
+      clearInterval(timer);
+      Report.success('00:00:00:00', 'Plese set down New Timer');
+      refs.dataInput.disabled = false;
+    }
   }, DELAY);
 }
 
