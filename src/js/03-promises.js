@@ -12,8 +12,6 @@ function onFormSub(event) {
   let amountInput = Number(amount.value);
 
   for (let i = 1; i <= amountInput; i += 1) {
-    delayInput += stepInput;
-
     createPromise(i, delayInput)
       .then(({ position, delay }) => {
         Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
@@ -21,7 +19,7 @@ function onFormSub(event) {
       .catch(({ position, delay }) => {
         Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
       });
-
+    delayInput += stepInput;
     event.currentTarget.reset();
   }
 }
