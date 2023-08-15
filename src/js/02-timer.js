@@ -4,6 +4,7 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const DELAY = 1000;
 let currentDate = null;
+let choosenDate = null;
 
 const refs = {
   dataInput: document.querySelector('input#datetime-picker'),
